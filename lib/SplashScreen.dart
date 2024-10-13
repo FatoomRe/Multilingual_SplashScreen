@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api, file_names
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:splash_screen/HomeScreen.dart';
@@ -13,8 +11,10 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   int _currentIndex = 0;
+  double _opacity = 1.0;
   final List<String> _words = [
     'Hello',
+    'Hola',
     'Bonjour',
     'Ciao',
     'Olá',
@@ -29,19 +29,24 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _startAnimation() {
-    Timer.periodic(const Duration(milliseconds: 150), (Timer timer) {
-      if (_currentIndex < _words.length - 1) {
-        setState(() {
-          _currentIndex++;
-        });
-      } else {
-        timer.cancel();
-        Timer(const Duration(milliseconds: 500), () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
-          );
-        });
-      }
+    Timer(const Duration(milliseconds: 500), () {
+      Timer.periodic(const Duration(milliseconds: 150), (Timer timer) {
+        if (_currentIndex < _words.length - 1) {
+          setState(() {
+            _currentIndex++;
+          });
+        } else {
+          timer.cancel();
+          setState(() {
+            _opacity = 0.0;
+          });
+          Timer(const Duration(milliseconds: 200), () { // Faster fade-out
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const HomeScreen()),
+            );
+          });
+        }
+      });
     });
   }
 
@@ -50,12 +55,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Text(
-          _words[_currentIndex],
-          style: const TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        child: AnimatedOpacity(
+          opacity: _opacity,
+          duration: const Duration(milliseconds: 300), // Faster fade-out
+          child: Text(
+            _words[_currentIndex],
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
