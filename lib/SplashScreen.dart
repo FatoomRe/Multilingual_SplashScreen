@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _startAnimation() {
-    Timer.periodic(const Duration(milliseconds: 400), (Timer timer) {
+    Timer.periodic(const Duration(milliseconds: 150), (Timer timer) {
       if (_currentIndex < _words.length - 1) {
         setState(() {
           _currentIndex++;
