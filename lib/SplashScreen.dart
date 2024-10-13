@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     'Bonjour',
     'Ciao',
     'Olá',
-    '哈罗',
+    '你好',
     'أرحبووو',
   ];
 
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
           setState(() {
             _opacity = 0.0;
           });
-          Timer(const Duration(milliseconds: 200), () { // Faster fade-out
+          Timer(const Duration(milliseconds: 200), () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => const HomeScreen()),
             );
@@ -61,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Text(
             _words[_currentIndex],
             style: const TextStyle(
-              fontSize: 32,
+              fontSize: 40,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
